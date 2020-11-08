@@ -3303,14 +3303,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239843362}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 335.74
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
+  m_Constraints: 110
+  m_CollisionDetection: 3
 --- !u!1 &1258803553
 GameObject:
   m_ObjectHideFlags: 0
@@ -4219,7 +4219,8 @@ MonoBehaviour:
   base_friction: 10
   side_speed_scale: 0.5
   in_air_speed_scale: 0.01
-  jump_speed_loss: 0.9
+  jump_speed_loss: 0.95
+  velocity_magnitude: 0
 --- !u!54 &1637924288 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 1049413159427876213, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
@@ -5990,6 +5991,11 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 1.38
       objectReference: {fileID: 0}
+    - target: {fileID: 1049413159427876213, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 1049413159427876214, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
       propertyPath: in_air_speed_scale
@@ -6079,6 +6085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.x
       value: 1.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274975814168640724, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1049413159427876214, guid: 29da4abf74da3674aa5bc0dfdf5502eb, type: 3}

@@ -16,6 +16,8 @@ public class Player_Movement : MonoBehaviour
     public float side_speed_scale = 0.5f;
     public float in_air_speed_scale = 0.4f;
     public float jump_speed_loss = 0.9f;
+    public float crouch_height_multiplier = 1.0f;
+    public float crouch_height_penalty = 1.0f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -23,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     private Vector2 velocity2D = new Vector2(0.0f,0.0f);
     private bool jumpable = false;
     private int objects_contacting = 0;
-    private float velocity_magnitude = 0.0f;
+    public float velocity_magnitude = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +104,8 @@ public class Player_Movement : MonoBehaviour
             speed = 0.0f;
             transform.localScale += crouch_scale;
             rb.velocity = rb.velocity*crouch_speed_multiplier;
+            velocity.y = velocity.y*crouch_height_multiplier-crouch_height_penalty;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
         if(Input.GetKeyUp(KeyCode.LeftControl)){
             pm.dynamicFriction = base_friction;
