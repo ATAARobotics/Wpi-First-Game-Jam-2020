@@ -21,6 +21,7 @@ public class Player_Movement : MonoBehaviour
     private Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
     private Vector2 velocity2D = new Vector2(0.0f,0.0f);
     private bool jumpable = false;
+    private int objects_contacting = 0;
     private float velocity_magnitude = 0.0f;
 
     // Start is called before the first frame update
@@ -39,8 +40,8 @@ public class Player_Movement : MonoBehaviour
         if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&jumpable){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
-        if(Input.GetKey("w")&&jumpable){
-	    velocity += transform.forward*speed;
+        if(Input.GetKey("w")&&(jumpable)){
+	    velocity += (transform.forward*speed);
         }
         if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
@@ -54,30 +55,44 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
-            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            if (velocity2D.magnitude != 0){
+                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            }
+            if(velocity_magnitude > -0.01 && velocity_magnitude < 0.01){
+                velocity += transform.forward*speed*in_air_speed_scale;
+                print("hhhhhhhhhh");
+            }else{
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            }
         }
         if(Input.GetKey("s")&&!(jumpable)){
 	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
-            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            if (velocity2D.magnitude != 0){
+                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
         if(Input.GetKey("a")&&!(jumpable)){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
-            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            if (velocity2D.magnitude != 0){
+                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
         if(Input.GetKey("d")&&!(jumpable)){
 	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
-            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            if (velocity2D.magnitude != 0){
+                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
-        if(Input.GetKey("space")&&jumpable){
+        if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
-            jumpable = false;
+            objects_contacting = 0;
+            print("nto jumpable");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
@@ -94,14 +109,20 @@ public class Player_Movement : MonoBehaviour
         }
         rotation_x+=Mathf.Clamp((Input.GetAxis("Mouse X"))*mouse_sensitivity,-5.0f,5.0f);
         transform.localRotation = Quaternion.Euler(0, rotation_x, 0);
+        if (objects_contacting > 0){
+            jumpable = true;
+        }else{
+            jumpable = false;
+        }
     }
 
     void OnTriggerEnter(Collider col){
-        jumpable = true;
-        print("aaaaaa");
+        objects_contacting = objects_contacting+1;
+        print(jumpable);
     }
     void OnTriggerExit(Collider col){
-        jumpable = false;
-        print("aaaaaa");
+        objects_contacting = objects_contacting-1;
+        if (objects_contacting<0){objects_contacting = 0;}
+        print(jumpable);
     }
 }
