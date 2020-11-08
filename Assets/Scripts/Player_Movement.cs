@@ -15,6 +15,7 @@ public class Player_Movement : MonoBehaviour
     public float base_friction = 10.0f;
     public float side_speed_scale = 0.5f;
     public float in_air_speed_scale = 0.4f;
+    public float jump_speed_loss = 0.9f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -90,6 +91,8 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
+            velocity.x = velocity.x*jump_speed_loss;
+            velocity.z = velocity.z*jump_speed_loss;
             objects_contacting = 0;
         }
         velocity2D = new Vector2(velocity.x,velocity.z);

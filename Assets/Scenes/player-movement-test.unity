@@ -4218,7 +4218,8 @@ MonoBehaviour:
   jump_speed: 7
   base_friction: 10
   side_speed_scale: 0.5
-  in_air_speed_scale: 0.05
+  in_air_speed_scale: 0.01
+  jump_speed_loss: 0.9
 --- !u!54 &1637924288 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 1049413159427876213, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
