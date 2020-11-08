@@ -12,10 +12,14 @@ public class Player_Movement : MonoBehaviour
     public Vector3 crouch_scale = new Vector3(0.0f,-0.5f,0.0f);
     public float mouse_sensitivity = 0.05f;
     public float jump_speed = 5.0f;
+    public float base_friction = 10.0f;
+    public float side_speed_scale = 0.5f;
+    public float in_air_speed_scale = 0.4f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
     private Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
+    private bool jumpable = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,38 +36,57 @@ public class Player_Movement : MonoBehaviour
         if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
-        if(Input.GetKey("w")){
+        if(Input.GetKey("w")&&rb.velocity.y==0){
 	    velocity += transform.forward*speed;
         }
-        if(Input.GetKey("s")){
+        if(Input.GetKey("s")&&rb.velocity.y==0){
 	    velocity += transform.forward*speed*(-1.0f);
         }
-        if(Input.GetKey("a")){
-	    velocity += transform.right*speed*(-1.0f);
+        if(Input.GetKey("a")&&rb.velocity.y==0){
+	    velocity += transform.right*speed*(-1.0f)*side_speed_scale;
         }
-        if(Input.GetKey("d")){
-	    velocity += transform.right*speed;
+        if(Input.GetKey("d")&&rb.velocity.y==0){
+	    velocity += transform.right*speed*side_speed_scale;
         }
-if(rb.velocity.y==0){
-            if(Input.GetKey("space")){
-	        velocity += transform.up*jump_speed;
-            }
-           print("aaaaaaaaaaaaaaaaaaaa");
+        if(Input.GetKey("w")&&!(rb.velocity.y==0)){
+	    velocity += transform.forward*speed*in_air_speed_scale;
         }
-
+        if(Input.GetKey("s")&&!(rb.velocity.y==0)){
+	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
+        }
+        if(Input.GetKey("a")&&!(rb.velocity.y==0)){
+	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
+        }
+        if(Input.GetKey("d")&&!(rb.velocity.y==0)){
+	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
+        }
+        if(Input.GetKey("space")&&jumpable){
+	    velocity += transform.up*jump_speed;
+            jumpable = false;
+        }
 
         rb.velocity = velocity;
         if(Input.GetKeyDown(KeyCode.LeftControl)){
             pm.dynamicFriction = 0.05f;
-            speed = speed*crouch_speed_multiplier;
+            speed = 0.0f;
             transform.localScale += crouch_scale;
+            rb.velocity = rb.velocity*crouch_speed_multiplier;
         }
         if(Input.GetKeyUp(KeyCode.LeftControl)){
-            pm.dynamicFriction = 0.6f;
+            pm.dynamicFriction = base_friction;
             speed = base_speed;
             transform.localScale -= crouch_scale;
         }
         rotation_x+=Mathf.Clamp((Input.GetAxis("Mouse X"))*mouse_sensitivity,-5.0f,5.0f);
         transform.localRotation = Quaternion.Euler(0, rotation_x, 0);
+    }
+
+    void OnTriggerEnter(Collider col){
+        jumpable = true;
+        print("aaaaaa");
+    }
+    void OnTriggerExit(Collider col){
+        jumpable = false;
+        print("aaaaaa");
     }
 }
