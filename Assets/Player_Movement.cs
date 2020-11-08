@@ -19,7 +19,9 @@ public class Player_Movement : MonoBehaviour
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
     private Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
+    private Vector2 velocity2D = new Vector2(0.0f,0.0f);
     private bool jumpable = false;
+    private float velocity_magnitude = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -32,39 +34,52 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        velocity_magnitude = velocity2D.magnitude;
         velocity = new Vector3(rb.velocity.x,rb.velocity.y,rb.velocity.z);
-        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))){   
+        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&jumpable){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
-        if(Input.GetKey("w")&&rb.velocity.y==0){
+        if(Input.GetKey("w")&&jumpable){
 	    velocity += transform.forward*speed;
         }
-        if(Input.GetKey("s")&&rb.velocity.y==0){
+        if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
         }
-        if(Input.GetKey("a")&&rb.velocity.y==0){
+        if(Input.GetKey("a")&&jumpable){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale;
         }
-        if(Input.GetKey("d")&&rb.velocity.y==0){
+        if(Input.GetKey("d")&&jumpable){
 	    velocity += transform.right*speed*side_speed_scale;
         }
-        if(Input.GetKey("w")&&!(rb.velocity.y==0)){
+        if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
+            velocity2D = new Vector2(velocity.x,velocity.z);
+            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
-        if(Input.GetKey("s")&&!(rb.velocity.y==0)){
+        if(Input.GetKey("s")&&!(jumpable)){
 	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
+            velocity2D = new Vector2(velocity.x,velocity.z);
+            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
-        if(Input.GetKey("a")&&!(rb.velocity.y==0)){
+        if(Input.GetKey("a")&&!(jumpable)){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
+            velocity2D = new Vector2(velocity.x,velocity.z);
+            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
-        if(Input.GetKey("d")&&!(rb.velocity.y==0)){
+        if(Input.GetKey("d")&&!(jumpable)){
 	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
+            velocity2D = new Vector2(velocity.x,velocity.z);
+            velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
         }
         if(Input.GetKey("space")&&jumpable){
 	    velocity += transform.up*jump_speed;
             jumpable = false;
         }
-
+        velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
         if(Input.GetKeyDown(KeyCode.LeftControl)){
             pm.dynamicFriction = 0.05f;
