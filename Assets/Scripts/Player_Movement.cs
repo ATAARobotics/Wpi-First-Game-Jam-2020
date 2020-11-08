@@ -60,7 +60,6 @@ public class Player_Movement : MonoBehaviour
             }
             if(velocity_magnitude > -0.01 && velocity_magnitude < 0.01){
                 velocity += transform.forward*speed*in_air_speed_scale;
-                print("hhhhhhhhhh");
             }else{
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
             }
@@ -92,7 +91,6 @@ public class Player_Movement : MonoBehaviour
         if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
             objects_contacting = 0;
-            print("nto jumpable");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
@@ -118,11 +116,9 @@ public class Player_Movement : MonoBehaviour
 
     void OnTriggerEnter(Collider col){
         objects_contacting = objects_contacting+1;
-        print(jumpable);
     }
     void OnTriggerExit(Collider col){
         objects_contacting = objects_contacting-1;
         if (objects_contacting<0){objects_contacting = 0;}
-        print(jumpable);
     }
 }
