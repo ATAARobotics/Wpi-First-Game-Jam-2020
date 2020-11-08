@@ -6050,6 +6050,11 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 1.38
       objectReference: {fileID: 0}
+    - target: {fileID: 5023940989627424763, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: m_MinVertexDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6274975814168640724, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
       propertyPath: m_RootOrder
