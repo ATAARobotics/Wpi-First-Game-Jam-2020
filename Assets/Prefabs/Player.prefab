@@ -739,6 +739,11 @@ PrefabInstance:
       propertyPath: m_PlayAutomatically
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2223639932434330405, guid: 31e3429a4828d714cb96d3aa497a6134,
+        type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2854563699051640978, guid: 31e3429a4828d714cb96d3aa497a6134,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

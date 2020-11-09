@@ -35,7 +35,8 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         am = player_model.GetComponent<Animation>();
         Cursor.lockState = CursorLockMode.Locked;
-        speed = base_speed;    
+        speed = base_speed;
+        am["Walking"].speed = 10.0f;
     }
 
     // Update is called once per frame
@@ -48,22 +49,22 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("w")&&(jumpable)){
 	    velocity += (transform.forward*speed);
-            am.Play("Walking");
+            
         }
         if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
-            am.Play("Walking");
         }
         if(Input.GetKey("a")&&jumpable){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale;
-            am.Play("Walking");
         }
         if(Input.GetKey("d")&&jumpable){
 	    velocity += transform.right*speed*side_speed_scale;
-            am.Play("Walking");
         }
         if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
             am.Play("Idle");
+        }
+        if(Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d")){
+            am.Play("Walking");
         }
         if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
