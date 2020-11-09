@@ -107,6 +107,9 @@ public class Player_Movement : MonoBehaviour
             velocity.y = velocity.y*crouch_height_multiplier-crouch_height_penalty;
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
+        if (Input.GetKeyDown(KeyCode.LeftControl)&&jumpable){
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
+        }
         if(Input.GetKeyUp(KeyCode.LeftControl)){
             pm.dynamicFriction = base_friction;
             speed = base_speed;
