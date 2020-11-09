@@ -26,11 +26,14 @@ public class Player_Movement : MonoBehaviour
     private bool jumpable = false;
     private int objects_contacting = 0;
     public float velocity_magnitude = 0.0f;
+    public GameObject player_model;
+    private Animation am;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+        am = player_model.GetComponent<Animation>();
         Cursor.lockState = CursorLockMode.Locked;
         speed = base_speed;    
     }
@@ -45,15 +48,22 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("w")&&(jumpable)){
 	    velocity += (transform.forward*speed);
+            am.Play("Walking");
         }
         if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
+            am.Play("Walking");
         }
         if(Input.GetKey("a")&&jumpable){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale;
+            am.Play("Walking");
         }
         if(Input.GetKey("d")&&jumpable){
 	    velocity += transform.right*speed*side_speed_scale;
+            am.Play("Walking");
+        }
+        if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
+            am.Play();
         }
         if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
