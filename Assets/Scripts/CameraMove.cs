@@ -19,6 +19,7 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         rotation_z+=Mathf.Clamp((-Input.GetAxis("Mouse Y"))*mouse_sensitivity,-5.0f,5.0f);
+        rotation_z = Mathf.Clamp(rotation_z,-90.0f,90.0f);
         transform.localRotation = Quaternion.Euler(rotation_z, 0, 0);
     }
 }

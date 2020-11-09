@@ -15,6 +15,9 @@ public class Player_Movement : MonoBehaviour
     public float base_friction = 10.0f;
     public float side_speed_scale = 0.5f;
     public float in_air_speed_scale = 0.4f;
+    public float jump_speed_loss = 0.9f;
+    public float crouch_height_multiplier = 1.0f;
+    public float crouch_height_penalty = 1.0f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -22,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     private Vector2 velocity2D = new Vector2(0.0f,0.0f);
     private bool jumpable = false;
     private int objects_contacting = 0;
-    private float velocity_magnitude = 0.0f;
+    public float velocity_magnitude = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -60,7 +63,6 @@ public class Player_Movement : MonoBehaviour
             }
             if(velocity_magnitude > -0.01 && velocity_magnitude < 0.01){
                 velocity += transform.forward*speed*in_air_speed_scale;
-                print("hhhhhhhhhh");
             }else{
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
             }
@@ -91,8 +93,9 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
+            velocity.x = velocity.x*jump_speed_loss;
+            velocity.z = velocity.z*jump_speed_loss;
             objects_contacting = 0;
-            print("nto jumpable");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
@@ -101,6 +104,11 @@ public class Player_Movement : MonoBehaviour
             speed = 0.0f;
             transform.localScale += crouch_scale;
             rb.velocity = rb.velocity*crouch_speed_multiplier;
+            velocity.y = velocity.y*crouch_height_multiplier-crouch_height_penalty;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl)&&jumpable){
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
         if(Input.GetKeyUp(KeyCode.LeftControl)){
             pm.dynamicFriction = base_friction;
@@ -118,11 +126,9 @@ public class Player_Movement : MonoBehaviour
 
     void OnTriggerEnter(Collider col){
         objects_contacting = objects_contacting+1;
-        print(jumpable);
     }
     void OnTriggerExit(Collider col){
         objects_contacting = objects_contacting-1;
         if (objects_contacting<0){objects_contacting = 0;}
-        print(jumpable);
     }
 }
