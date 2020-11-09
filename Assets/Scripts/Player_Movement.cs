@@ -63,7 +63,7 @@ public class Player_Movement : MonoBehaviour
             am.Play("Walking");
         }
         if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
-            am.Play();
+            am.Play("Idle");
         }
         if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
@@ -76,6 +76,7 @@ public class Player_Movement : MonoBehaviour
             }else{
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
             }
+            am.Play("Idle");
         }
         if(Input.GetKey("s")&&!(jumpable)){
 	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
@@ -84,6 +85,7 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("a")&&!(jumpable)){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
@@ -92,6 +94,7 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("d")&&!(jumpable)){
 	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
@@ -100,12 +103,14 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
             velocity.x = velocity.x*jump_speed_loss;
             velocity.z = velocity.z*jump_speed_loss;
             objects_contacting = 0;
+            am.Play("Idle");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
