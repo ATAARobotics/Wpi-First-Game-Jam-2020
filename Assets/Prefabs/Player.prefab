@@ -141,10 +141,12 @@ MonoBehaviour:
   jump_speed: 7
   base_friction: 10
   side_speed_scale: 0.5
-  in_air_speed_scale: 0.01
+  in_air_speed_scale: 0
   jump_speed_loss: 0.95
   crouch_height_multiplier: 1
   crouch_height_penalty: 10
+  momentum_cap: 10
+  air_control: 0.05
   velocity_magnitude: 0
   player_model: {fileID: 2619890034985025678}
 --- !u!1 &1049413159625339775

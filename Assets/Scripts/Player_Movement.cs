@@ -19,6 +19,7 @@ public class Player_Movement : MonoBehaviour
     public float crouch_height_multiplier = 1.0f;
     public float crouch_height_penalty = 1.0f;
     public float momentum_cap = 10.0f;
+    public float air_control = 0.3f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -48,6 +49,9 @@ public class Player_Movement : MonoBehaviour
         if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&jumpable){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
+        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&!jumpable){   
+            velocity = new Vector3(rb.velocity.x*air_control,rb.velocity.y,rb.velocity.z*air_control);
+        }
         if(Input.GetKey("w")&&(jumpable)){
 	    velocity += (transform.forward*speed); 
         }
@@ -62,22 +66,22 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("w")&&(Input.GetKey(KeyCode.LeftControl))){
             if(velocity_magnitude < momentum_cap){
-	        velocity += (transform.forward*base_speed); 
+	        velocity += (transform.forward*base_speed*crouch_speed_multiplier); 
             }
         }
         if(Input.GetKey("s")&&Input.GetKey(KeyCode.LeftControl)){
             if(velocity_magnitude < momentum_cap){
-	        velocity += transform.forward*base_speed*(-1.0f);
+	        velocity += transform.forward*base_speed*(-1.0f)*crouch_speed_multiplier;
             }
         }
         if(Input.GetKey("a")&&Input.GetKey(KeyCode.LeftControl)){
             if(velocity_magnitude < momentum_cap){
-	        velocity += transform.right*base_speed*(-1.0f)*side_speed_scale;
+	        velocity += transform.right*base_speed*(-1.0f)*side_speed_scale*crouch_speed_multiplier;
             }
         }
         if(Input.GetKey("d")&&Input.GetKey(KeyCode.LeftControl)){
             if(velocity_magnitude < momentum_cap){
-	        velocity += transform.right*base_speed*side_speed_scale;
+	        velocity += transform.right*base_speed*side_speed_scale*crouch_speed_multiplier;
             }
         }
         if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
@@ -90,12 +94,12 @@ public class Player_Movement : MonoBehaviour
 	    velocity += transform.forward*speed*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
             if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+                velocity2D = velocity2D;
             }
             if(velocity_magnitude > -0.01 && velocity_magnitude < 0.01){
                 velocity += transform.forward*speed*in_air_speed_scale;
             }else{
-            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+                velocity = new Vector3(velocity.x,velocity.y,velocity.z);
             }
             am.Play("Idle");
         }
@@ -103,27 +107,27 @@ public class Player_Movement : MonoBehaviour
 	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
             if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+                velocity2D = velocity2D;
             }
-            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
             am.Play("Idle");
         }
         if(Input.GetKey("a")&&!(jumpable)){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
             if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+                velocity2D = velocity2D;
             }
-            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
             am.Play("Idle");
         }
         if(Input.GetKey("d")&&!(jumpable)){
 	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
             velocity2D = new Vector2(velocity.x,velocity.z);
             if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
+                velocity2D = velocity2D;
             }
-            velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
             am.Play("Idle");
         }
         if(Input.GetKey("space")&&(jumpable)){
