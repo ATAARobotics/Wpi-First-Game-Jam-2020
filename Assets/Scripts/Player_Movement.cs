@@ -18,6 +18,7 @@ public class Player_Movement : MonoBehaviour
     public float jump_speed_loss = 0.9f;
     public float crouch_height_multiplier = 1.0f;
     public float crouch_height_penalty = 1.0f;
+    public float momentum_cap = 10.0f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -26,13 +27,17 @@ public class Player_Movement : MonoBehaviour
     private bool jumpable = false;
     private int objects_contacting = 0;
     public float velocity_magnitude = 0.0f;
+    public GameObject player_model;
+    private Animation am;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+        am = player_model.GetComponent<Animation>();
         Cursor.lockState = CursorLockMode.Locked;
-        speed = base_speed;    
+        speed = base_speed;
+        am["Walking"].speed = 10.0f;
     }
 
     // Update is called once per frame
@@ -44,7 +49,7 @@ public class Player_Movement : MonoBehaviour
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
         if(Input.GetKey("w")&&(jumpable)){
-	    velocity += (transform.forward*speed);
+	    velocity += (transform.forward*speed); 
         }
         if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
@@ -54,6 +59,32 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("d")&&jumpable){
 	    velocity += transform.right*speed*side_speed_scale;
+        }
+        if(Input.GetKey("w")&&(Input.GetKey(KeyCode.LeftControl))){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += (transform.forward*base_speed); 
+            }
+        }
+        if(Input.GetKey("s")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.forward*base_speed*(-1.0f);
+            }
+        }
+        if(Input.GetKey("a")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.right*base_speed*(-1.0f)*side_speed_scale;
+            }
+        }
+        if(Input.GetKey("d")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.right*base_speed*side_speed_scale;
+            }
+        }
+        if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
+            am.Play("Idle");
+        }
+        if(Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d")){
+            am.Play("Walking");
         }
         if(Input.GetKey("w")&&!(jumpable)){
 	    velocity += transform.forward*speed*in_air_speed_scale;
@@ -66,6 +97,7 @@ public class Player_Movement : MonoBehaviour
             }else{
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
             }
+            am.Play("Idle");
         }
         if(Input.GetKey("s")&&!(jumpable)){
 	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
@@ -74,6 +106,7 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("a")&&!(jumpable)){
 	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
@@ -82,6 +115,7 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("d")&&!(jumpable)){
 	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
@@ -90,12 +124,14 @@ public class Player_Movement : MonoBehaviour
                 velocity2D = velocity2D*(velocity_magnitude/velocity2D.magnitude);
             }
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
+            am.Play("Idle");
         }
         if(Input.GetKey("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
             velocity.x = velocity.x*jump_speed_loss;
             velocity.z = velocity.z*jump_speed_loss;
             objects_contacting = 0;
+            am.Play("Idle");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
@@ -105,6 +141,9 @@ public class Player_Movement : MonoBehaviour
             transform.localScale += crouch_scale;
             rb.velocity = rb.velocity*crouch_speed_multiplier;
             velocity.y = velocity.y*crouch_height_multiplier-crouch_height_penalty;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl)&&jumpable){
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
         if(Input.GetKeyUp(KeyCode.LeftControl)){
