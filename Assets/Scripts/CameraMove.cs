@@ -24,7 +24,6 @@ public class CameraMove : MonoBehaviour
         transform.localRotation = Quaternion.Euler(rotation_z, 0, 0);
 
         if (Input.GetMouseButtonDown(0)) {
-            Debug.Log("Hit!");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
@@ -32,6 +31,7 @@ public class CameraMove : MonoBehaviour
                 if (hit.transform.tag == "Button") {
                     ToggleObject button = hit.transform.GetComponent<ToggleObject>();
                     button.ToggleButton();
+                    Debug.Log(button);
                 }
             }
         }
