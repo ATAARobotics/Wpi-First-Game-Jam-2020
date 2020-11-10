@@ -7,7 +7,9 @@ using UnityEngine.AI;
 public class ToggleObject : MonoBehaviour {
 
     public GameObject player;
-    public float max_distance;
+
+    [SerializeField]
+    private float max_distance;
 
     [SerializeField]
     private bool open = false;
@@ -28,13 +30,13 @@ public class ToggleObject : MonoBehaviour {
     }
 
     public void ToggleButton() {
-        if(playerDistance()<max_distance){
+        //Debug.Log(playerDistance());
+        if(playerDistance() < max_distance){
             open = !open;
-            Debug.Log("Hit!");
         }
     }
 
-    public float playerDistance(){
+    public float playerDistance() {
         distance = Mathf.Sqrt(Mathf.Abs(player.transform.position.x-transform.position.x)+Mathf.Abs(player.transform.position.y-transform.position.y)+Mathf.Abs(player.transform.position.z-transform.position.z));
         return distance;
     }
