@@ -485,9 +485,11 @@ MonoBehaviour:
   - {x: 240, y: 1.83, z: 0}
   - {x: 240, y: 1.83, z: 60}
   point_number: 0
+  current_target: {x: 0, y: 0, z: 0}
   tolerence: 0
   speed: 5
   delay_time: 2
+  delay_start: 0
   buttonPressed: 0
 --- !u!54 &648751854
 Rigidbody:

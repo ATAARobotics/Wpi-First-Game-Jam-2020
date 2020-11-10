@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1049413159427876217}
+  - component: {fileID: 1049413159427876216}
   - component: {fileID: 1049413159427876215}
   - component: {fileID: 1049413159427876213}
   - component: {fileID: 1049413159427876212}
@@ -16,7 +17,7 @@ GameObject:
   - component: {fileID: 6946846919157466676}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,7 +181,6 @@ Transform:
   m_Father: {fileID: 1049413159427876217}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -5.906, y: -131.737, z: -2.171}
---- !u!20 &1049413159625339745
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,7 +371,7 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 3470
-      atime1: 65535
+      atime1: 39321
       atime2: 0
       atime3: 0
       atime4: 0
@@ -431,9 +431,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8db67bc58ee8c5844aa2a5be8e814828, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5289d153177cf244d8818be90f8f098f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.068
   m_Pitch: 1
   Loop: 1
   Mute: 0
