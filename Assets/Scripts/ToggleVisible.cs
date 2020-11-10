@@ -14,8 +14,8 @@ public class ToggleVisible : IsActive
     // Update is called once per frame
     void Update() {
         if (state) {
-            transform.GetComponent<Renderer>().enabled = false;
-            transform.GetComponent<Collider>().enabled = false;
+            transform.GetComponent<Renderer>().enabled = true;
+            transform.GetComponent<Collider>().enabled = true;
         } else {
             transform.GetComponent<Renderer>().enabled = true;
             transform.GetComponent<Collider>().enabled = true;

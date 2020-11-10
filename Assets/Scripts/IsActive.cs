@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IsActive : MonoBehaviour
 {
-
     protected bool state = false;
 
     public void Toggle(bool state) {
