@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1049413159427876217}
+  - component: {fileID: 1049413159427876216}
   - component: {fileID: 1049413159427876215}
   - component: {fileID: 1049413159427876213}
   - component: {fileID: 1049413159427876212}
@@ -180,7 +181,6 @@ Transform:
   m_Father: {fileID: 1049413159427876217}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -5.906, y: -131.737, z: -2.171}
---- !u!20 &1049413159625339745
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
