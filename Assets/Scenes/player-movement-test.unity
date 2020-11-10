@@ -3219,7 +3219,7 @@ Transform:
   m_GameObject: {fileID: 997951390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.52}
-  m_LocalScale: {x: 0.20447, y: 0.13167001, z: 0.26116}
+  m_LocalScale: {x: 0.76866406, y: 0.610251, z: 0.26116}
   m_Children: []
   m_Father: {fileID: 1217556801}
   m_RootOrder: 0
@@ -3236,7 +3236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3457bbee24cece74d8888e1281645e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1105182768}
   max_distance: 2
   open: 0
   floor: {fileID: 403270479}
@@ -3630,6 +3630,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 60
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1105182768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1049413159427876211, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756628563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1201492149
 GameObject:
   m_ObjectHideFlags: 0
@@ -5626,6 +5632,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946846919157466676, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: jump_speed_loss
+      value: -0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946846919157466676, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: in_air_speed_scale
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946846919157466676, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: air_control
+      value: 0.995
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29da4abf74da3674aa5bc0dfdf5502eb, type: 3}
