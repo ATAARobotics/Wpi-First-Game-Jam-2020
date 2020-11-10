@@ -29,7 +29,7 @@ public class CameraMove : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.tag == "Button") {
-                    ToggleObject button = hit.transform.GetComponent<ToggleObject>();
+                    ToggleScript button = hit.transform.GetComponent<ToggleScript>();
                     button.ToggleButton();
                     Debug.Log(button);
                 }
