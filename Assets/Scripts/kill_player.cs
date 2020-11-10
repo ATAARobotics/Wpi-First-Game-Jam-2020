@@ -21,6 +21,8 @@ public class kill_player : MonoBehaviour
 
 
     void OnTriggerEnter(Collider col){
-        col.gameObject.transform.localPosition = spawn_point.transform.localPosition;
+        if(col.gameObject.tag == "Player"){
+            col.gameObject.transform.localPosition = spawn_point.transform.localPosition;
+        }
     }
 }
