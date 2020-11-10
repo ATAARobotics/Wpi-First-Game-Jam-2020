@@ -18,6 +18,7 @@ public class Player_Movement : MonoBehaviour
     public float jump_speed_loss = 0.9f;
     public float crouch_height_multiplier = 1.0f;
     public float crouch_height_penalty = 1.0f;
+    public float momentum_cap = 10.0f;
     
     private float speed = 0.0f;
     private float rotation_x = 0.0f;
@@ -48,8 +49,7 @@ public class Player_Movement : MonoBehaviour
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
         if(Input.GetKey("w")&&(jumpable)){
-	    velocity += (transform.forward*speed);
-            
+	    velocity += (transform.forward*speed); 
         }
         if(Input.GetKey("s")&&jumpable){
 	    velocity += transform.forward*speed*(-1.0f);
@@ -59,6 +59,26 @@ public class Player_Movement : MonoBehaviour
         }
         if(Input.GetKey("d")&&jumpable){
 	    velocity += transform.right*speed*side_speed_scale;
+        }
+        if(Input.GetKey("w")&&(Input.GetKey(KeyCode.LeftControl))){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += (transform.forward*base_speed); 
+            }
+        }
+        if(Input.GetKey("s")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.forward*base_speed*(-1.0f);
+            }
+        }
+        if(Input.GetKey("a")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.right*base_speed*(-1.0f)*side_speed_scale;
+            }
+        }
+        if(Input.GetKey("d")&&Input.GetKey(KeyCode.LeftControl)){
+            if(velocity_magnitude < momentum_cap){
+	        velocity += transform.right*base_speed*side_speed_scale;
+            }
         }
         if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
             am.Play("Idle");
