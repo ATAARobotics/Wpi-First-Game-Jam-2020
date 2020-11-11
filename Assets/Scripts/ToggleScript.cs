@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Jobs;
 
 public class ToggleScript : MonoBehaviour {
 
@@ -13,17 +14,20 @@ public class ToggleScript : MonoBehaviour {
 
 
     [SerializeField]
-    private Transform targeted;
+    private Transform[] targeted;
 
     private bool toggle;
 
     private float distance;
-
     public void ToggleButton() {
         //Debug.Log(playerDistance());
         if(playerDistance() < max_distance){
+           // Debug.Log("toggle");
             toggle = !toggle;
-            targeted.transform.GetComponent<IsActive>().Toggle(toggle);
+            for (int i = 0; i < targeted.Length; i++) {
+               // Debug.Log(i);
+                targeted[i].transform.GetComponent<IsActive>().Toggle(toggle);
+            }
         }
     }
 
