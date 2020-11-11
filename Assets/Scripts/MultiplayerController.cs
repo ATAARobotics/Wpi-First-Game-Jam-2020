@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using System;
 using System.Text;
@@ -47,7 +48,7 @@ public class MultiplayerController : MonoBehaviour
     void Start()
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
-        ConnectToGameLiftServer();
+        //ConnectToGameLiftServer();
     }
 
     // Update is called once per frame
@@ -61,6 +62,8 @@ public class MultiplayerController : MonoBehaviour
     private int _peerID = -1;   // invalid peer id
 
     public bool IsConnectedToServer { get; set; }
+
+    public InputField codeInputField;
 
     public void SceneReady()
     {
@@ -80,6 +83,17 @@ public class MultiplayerController : MonoBehaviour
     public void NotifyChangeLevel()
     {
 
+    }
+
+    public void CreateAndJoinRoom()
+    {
+
+    }
+
+    public void JoinRoom()
+    {
+        string code = codeInputField.text;
+        ConnectToGameLiftServer(code);
     }
 
     private const string DEFAULT_ENDPOINT = "127.0.0.1";
@@ -148,7 +162,7 @@ public class MultiplayerController : MonoBehaviour
     }
 
     // calls our game service Lambda function to get connection info for the Realtime server
-    private void ConnectToGameLiftServer()
+    private void ConnectToGameLiftServer(string gameCode)
     {
         Debug.Log("Reaching out to client service Lambda function");
 
@@ -164,6 +178,9 @@ public class MultiplayerController : MonoBehaviour
         InvokeRequest request = new InvokeRequest
         {
             FunctionName = "wpigamejam-ClientConnectToServer",
+            //Payload = ("{\"gameCode\": \"asd123\"}"),
+            //Payload = ("{gameCode:" + gameCode + "}"),
+            Payload = ("{\"gameCode\": \"" + gameCode + "\"}"),
             InvocationType = InvocationType.RequestResponse
         };
 
