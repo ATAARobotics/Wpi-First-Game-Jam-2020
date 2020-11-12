@@ -41,6 +41,9 @@ public class MultiplayerController : MonoBehaviour
     const int WINNER_DETERMINED_OP_CODE = 101;
     const int LOGICAL_PLAYER_OP_CODE = 102;
 
+    const int OP_CODE_PLAYER_ACCEPTED = 113;
+    const int OP_CODE_DISCONNECT_NOTIFICATION = 114;
+
     const int SCENE_READY_OP_CODE = 200;
     const int LEVEL_CHANGE_OP_CODE = 201;
 
@@ -48,7 +51,7 @@ public class MultiplayerController : MonoBehaviour
     void Start()
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
-        //ConnectToGameLiftServer();
+        errorTextBox.text = "";
     }
 
     // Update is called once per frame
@@ -64,6 +67,7 @@ public class MultiplayerController : MonoBehaviour
     public bool IsConnectedToServer { get; set; }
 
     public InputField codeInputField;
+    public Text errorTextBox;
 
     public void SceneReady()
     {
@@ -85,15 +89,47 @@ public class MultiplayerController : MonoBehaviour
 
     }
 
-    public void CreateAndJoinRoom()
+    public void CreateRoomButton()
     {
-
+        joinRoomCode(createRoom());
     }
 
-    public void JoinRoom()
+
+    public void JoinRoomButton()
     {
         string code = codeInputField.text;
+
+        if (!doesRoomExist(code))
+        {
+            errorTextBox.text = "Room not Found or Room is Full";
+            return;
+        }
+
+        joinRoomCode(code);
+    }
+
+    public void joinRoomCode(string code)
+    {
         ConnectToGameLiftServer(code);
+    }
+
+    public string createRoom()
+    {
+
+        System.Random random = new System.Random();
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        string newCode = new string(Enumerable.Repeat(chars, 6)
+             .Select(s => s[random.Next(s.Length)]).ToArray());
+        // Something is probably wrong here...
+        
+        while (!doesRoomExist(newCode))
+        {
+            newCode = new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        return newCode;
     }
 
     private const string DEFAULT_ENDPOINT = "127.0.0.1";
@@ -161,6 +197,46 @@ public class MultiplayerController : MonoBehaviour
         StartCoroutine(ConnectToServer(ipAddr, port, tokenUID));
     }
 
+
+    private CognitoAWSCredentials GetCognitoCredentials()
+    {
+        return new CognitoAWSCredentials(
+            "us-west-2:7f096143-ff98-4d63-88c6-52b174d31de8", // Identity pool ID
+            RegionEndpoint.USWest2 // Region
+        );
+    }
+
+    private bool doesRoomExist(string gameCode)
+    {
+        Debug.Log("Reaching out to client service Lambda function");
+
+        AWSConfigs.AWSRegion = "us-west-2"; // Your region here
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+
+        CognitoAWSCredentials credentials = GetCognitoCredentials();
+        AmazonLambdaClient client = new AmazonLambdaClient(credentials, RegionEndpoint.USWest2);
+        InvokeRequest request = new InvokeRequest
+        {
+            FunctionName = "wpigamejam-DoesRoomExist",
+            Payload = ("{\"gameCode\": \"" + gameCode + "\"}"),
+            InvocationType = InvocationType.RequestResponse
+        };
+
+        //TODO: Finish function running
+
+        
+        var response = client.Invoke(request);
+        if(response.StatusCode == 200)
+        {
+            if(response.Body == "found")
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // calls our game service Lambda function to get connection info for the Realtime server
     private void ConnectToGameLiftServer(string gameCode)
     {
@@ -168,18 +244,13 @@ public class MultiplayerController : MonoBehaviour
 
         AWSConfigs.AWSRegion = "us-west-2"; // Your region here
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-        // paste this in from the Amazon Cognito Identity Pool console
-        CognitoAWSCredentials credentials = new CognitoAWSCredentials(
-            "us-west-2:7f096143-ff98-4d63-88c6-52b174d31de8", // Identity pool ID
-            RegionEndpoint.USWest2 // Region
-        );
+        
+        CognitoAWSCredentials credentials = GetCognitoCredentials();
 
         AmazonLambdaClient client = new AmazonLambdaClient(credentials, RegionEndpoint.USWest2);
         InvokeRequest request = new InvokeRequest
         {
             FunctionName = "wpigamejam-ClientConnectToServer",
-            //Payload = ("{\"gameCode\": \"asd123\"}"),
-            //Payload = ("{gameCode:" + gameCode + "}"),
             Payload = ("{\"gameCode\": \"" + gameCode + "\"}"),
             InvocationType = InvocationType.RequestResponse
         };
