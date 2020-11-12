@@ -3251,7 +3251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1676321831}
   max_distance: 2
-  targeted: {fileID: 403270479}
+  targeted:
+  - {fileID: 0}
 --- !u!65 &997951393
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7066,7 +7067,6 @@ MonoBehaviour:
   tolerence: 0
   speed: 5
   delay_time: 2
-  buttonPressed: 1
 --- !u!65 &2115770096
 BoxCollider:
   m_ObjectHideFlags: 0
