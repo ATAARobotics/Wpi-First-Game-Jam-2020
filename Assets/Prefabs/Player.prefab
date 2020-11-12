@@ -137,7 +137,7 @@ MonoBehaviour:
   base_speed: 20
   crouch_speed_multiplier: 0.6
   crouch_scale: {x: 0, y: -0.5, z: 0}
-  mouse_sensitivity: 4
+  mouse_sensitivity: 5
   jump_speed: 7
   base_friction: 10
   side_speed_scale: 0.5
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c602f08f7300368429232de934438de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouse_sensitivity: 4
+  mouse_sensitivity: 5
 --- !u!20 &8148752751485721267
 Camera:
   m_ObjectHideFlags: 0
