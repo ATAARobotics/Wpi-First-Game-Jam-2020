@@ -17,7 +17,6 @@ public class PlatformMovement : IsActive
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("test");
         if (points.Length > 0)
         {
             current_target = points[0];
