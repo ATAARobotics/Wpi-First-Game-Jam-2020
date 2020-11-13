@@ -48,6 +48,10 @@ public class MultiplayerController : MonoBehaviour
     const int SCENE_READY_OP_CODE = 200;
     const int LEVEL_CHANGE_OP_CODE = 201;
 
+    const int MAIN_MENU = 300;
+    const int LEVEL_ONE = 301;
+    const int LEVEL_TWO = 302;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,12 +95,10 @@ public class MultiplayerController : MonoBehaviour
     public void ReadyButton()
     {
 
-        if (!IsConnectedToServer) return;
-
-        if (IsRoomMenuLocked)
+        if (!IsRoomMenuLocked)
         {
             errorTextBox.text = "Ready!";
-            IsRoomMenuLocked = false;
+            IsRoomMenuLocked = true;
             // Send ready to begin OP Code
         }
     }
@@ -128,7 +130,7 @@ public class MultiplayerController : MonoBehaviour
 
     public void DisconnectButton()
     {
-
+        DisconnectFromServer();
     }
 
     public void joinRoomCode(string code)
@@ -404,6 +406,21 @@ public class MultiplayerController : MonoBehaviour
                         Debug.LogWarning("Unable to parse loser!");
                     }
                     QForMainThread(NotifyWinnerDetermined, winner, loser);
+                    break;
+                }
+
+            case LEVEL_CHANGE_OP_CODE:
+                {
+                    // Change Level (mainmenu, 1, 2)
+                    var level = 0;
+                    switch (level)
+                    {
+                        case 0:
+                            {
+                                //SceneManager.LoadScene("player-movement-test");
+                                break;
+                            }
+                    }
                     break;
                 }
         }
