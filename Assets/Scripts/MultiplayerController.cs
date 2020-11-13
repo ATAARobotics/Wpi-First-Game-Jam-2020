@@ -35,12 +35,6 @@ public class PlayerSessionObject
     public string Port;
 }
 
-public class RoomExistsObject
-{
-    public int StatusCode;
-    public string Body;
-}
-
 public class MultiplayerController : MonoBehaviour
 {
 
@@ -71,8 +65,6 @@ public class MultiplayerController : MonoBehaviour
     private int _logicalPlayerID = 0;
     private int _peerID = -1;   // invalid peer id
 
-    public bool IsConnectedToServer { get; set; }
-
     public InputField codeInputField;
     public Text errorTextBox;
 
@@ -96,16 +88,29 @@ public class MultiplayerController : MonoBehaviour
 
     }
 
+    public void ReadyButton()
+    {
+
+        if (!IsConnectedToServer) return;
+
+        if (IsRoomMenuLocked)
+        {
+            errorTextBox.text = "Ready!";
+            IsRoomMenuLocked = false;
+            // Send ready to begin OP Code
+        }
+    }
+
     public void CreateRoomButton()
     {
-        joinRoomCode(createRoom());
+        if(!IsRoomMenuLocked) joinRoomCode(createRoom());
     }
 
 
     public void JoinRoomButton()
     {
+        if (IsRoomMenuLocked) return;
         string code = codeInputField.text;
-
 
         doesRoomExist(code, (exists) =>
         {
@@ -118,6 +123,11 @@ public class MultiplayerController : MonoBehaviour
                 errorTextBox.text = "Room not Found or Room is Full";
             }
         });
+
+    }
+
+    public void DisconnectButton()
+    {
 
     }
 
@@ -146,6 +156,17 @@ public class MultiplayerController : MonoBehaviour
         */
 
         return newCode;
+    }
+
+    public bool IsConnectedToServer { get; set; }
+    public bool IsRoomMenuLocked { get; set; }
+
+    public void DisconnectFromServer()
+    {
+        if (_client != null && _client.Connected)
+        {
+            _client.Disconnect();
+        }
     }
 
     public void doesRoomExist(string gameCode, Action<bool> callback){
@@ -436,12 +457,4 @@ public class MultiplayerController : MonoBehaviour
             }
         }
     }
-
-
-
-
-
-
-
-
 }
