@@ -2229,8 +2229,8 @@ GameObject:
   - component: {fileID: 648751856}
   - component: {fileID: 648751855}
   - component: {fileID: 648751854}
-  - component: {fileID: 648751853}
   - component: {fileID: 648751852}
+  - component: {fileID: 648751853}
   m_Layer: 0
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -2260,7 +2260,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 648751851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9affb1d132a7fd04aae54e44cf9ed707, type: 3}
+  m_Script: {fileID: 11500000, guid: 89a08548087dcf94b9fdec762c8a0a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   points:
@@ -5035,17 +5035,17 @@ PrefabInstance:
     - target: {fileID: 1049413159427876217, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 620
+      value: 166
       objectReference: {fileID: 0}
     - target: {fileID: 1049413159427876217, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 107.5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1049413159427876217, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1049413159427876217, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
         type: 3}
