@@ -27,13 +27,14 @@ public class ToggleObject : MonoBehaviour {
             floor.GetComponent<Renderer>().enabled = true;
             floor.GetComponent<Collider>().enabled = true;
         }
+        if(playerDistance() < max_distance&&Input.GetButton("Fire1")){
+            open = !open;
+        }
     }
 
     public void ToggleButton() {
         //Debug.Log(playerDistance());
-        if(playerDistance() < max_distance){
-            open = !open;
-        }
+        
     }
 
     public float playerDistance() {
