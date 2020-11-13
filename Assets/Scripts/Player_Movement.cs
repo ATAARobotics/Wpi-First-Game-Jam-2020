@@ -46,91 +46,39 @@ public class Player_Movement : MonoBehaviour
     {
         velocity_magnitude = velocity2D.magnitude;
         velocity = new Vector3(rb.velocity.x,rb.velocity.y,rb.velocity.z);
-        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&jumpable){   
+        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetButton("Crouch"))&&jumpable){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
         }
-        if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetKey(KeyCode.LeftControl))&&!jumpable){   
+        if((Input.GetAxis("Vertical")!=0.0f||Input.GetAxis("Horizontal")!=0.0f&&(!Input.GetButton("Crouch"))&&!jumpable)){   
             velocity = new Vector3(rb.velocity.x*air_control,rb.velocity.y,rb.velocity.z*air_control);
         }
-        if(Input.GetKey("w")&&(jumpable)){
-	    velocity += (transform.forward*speed); 
+        if((jumpable)){
+	    velocity += (transform.forward*speed*Input.GetAxis("Vertical")); 
+            velocity += transform.right*speed*side_speed_scale*Input.GetAxis("Horizontal");
         }
-        if(Input.GetKey("s")&&jumpable){
-	    velocity += transform.forward*speed*(-1.0f);
-        }
-        if(Input.GetKey("a")&&jumpable){
-	    velocity += transform.right*speed*(-1.0f)*side_speed_scale;
-        }
-        if(Input.GetKey("d")&&jumpable){
-	    velocity += transform.right*speed*side_speed_scale;
-        }
-        if(Input.GetKey("w")&&(Input.GetKey(KeyCode.LeftControl))){
+
+        if((Input.GetKey(KeyCode.LeftControl))){
             if(velocity_magnitude < momentum_cap){
-	        velocity += (transform.forward*base_speed*crouch_speed_multiplier); 
+	        velocity += (transform.forward*base_speed*crouch_speed_multiplier*Input.GetAxis("Vertical")); 
+                velocity += transform.right*base_speed*side_speed_scale*crouch_speed_multiplier*Input.GetAxis("Horizontal");
             }
         }
-        if(Input.GetKey("s")&&Input.GetKey(KeyCode.LeftControl)){
-            if(velocity_magnitude < momentum_cap){
-	        velocity += transform.forward*base_speed*(-1.0f)*crouch_speed_multiplier;
-            }
-        }
-        if(Input.GetKey("a")&&Input.GetKey(KeyCode.LeftControl)){
-            if(velocity_magnitude < momentum_cap){
-	        velocity += transform.right*base_speed*(-1.0f)*side_speed_scale*crouch_speed_multiplier;
-            }
-        }
-        if(Input.GetKey("d")&&Input.GetKey(KeyCode.LeftControl)){
-            if(velocity_magnitude < momentum_cap){
-	        velocity += transform.right*base_speed*side_speed_scale*crouch_speed_multiplier;
-            }
-        }
-        if(!Input.GetKey("w")&&!Input.GetKey("a")&&!Input.GetKey("s")&&!Input.GetKey("d")){
+        if(Input.GetAxis("Vertical") == 0.0f&&Input.GetAxis("Horizontal") == 0.0f){
             am.Play("Idle");
         }
-        if(Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d")){
+        if(Input.GetAxis("Vertical") != 0.0f||Input.GetAxis("Horizontal") != 0.0f){
             am.Play("Walking");
         }
-        if(Input.GetKey("w")&&!(jumpable)){
-	    velocity += transform.forward*speed*in_air_speed_scale;
+        if(!(jumpable)){
+	    velocity += transform.forward*speed*in_air_speed_scale*Input.GetAxis("Vertical");
+            velocity += transform.right*speed*side_speed_scale*in_air_speed_scale*Input.GetAxis("Horizontal");
             velocity2D = new Vector2(velocity.x,velocity.z);
-            if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D;
-            }
             if(velocity_magnitude > -0.01 && velocity_magnitude < 0.01){
-                velocity += transform.forward*speed*in_air_speed_scale;
-            }else{
-                velocity = new Vector3(velocity.x,velocity.y,velocity.z);
+                velocity += transform.forward*speed*in_air_speed_scale*Input.GetAxis("Vertical");
             }
             am.Play("Idle");
         }
-        if(Input.GetKey("s")&&!(jumpable)){
-	    velocity += transform.forward*speed*(-1.0f)*in_air_speed_scale;
-            velocity2D = new Vector2(velocity.x,velocity.z);
-            if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D;
-            }
-            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
-            am.Play("Idle");
-        }
-        if(Input.GetKey("a")&&!(jumpable)){
-	    velocity += transform.right*speed*(-1.0f)*side_speed_scale*in_air_speed_scale;
-            velocity2D = new Vector2(velocity.x,velocity.z);
-            if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D;
-            }
-            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
-            am.Play("Idle");
-        }
-        if(Input.GetKey("d")&&!(jumpable)){
-	    velocity += transform.right*speed*side_speed_scale*in_air_speed_scale;
-            velocity2D = new Vector2(velocity.x,velocity.z);
-            if (velocity2D.magnitude != 0){
-                velocity2D = velocity2D;
-            }
-            velocity = new Vector3(velocity.x,velocity.y,velocity.z);
-            am.Play("Idle");
-        }
-        if(Input.GetKey("space")&&(jumpable)){
+        if(Input.GetButtonDown("Jump")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
             velocity.x = velocity.x*jump_speed_loss;
             velocity.z = velocity.z*jump_speed_loss;
@@ -139,7 +87,7 @@ public class Player_Movement : MonoBehaviour
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
         rb.velocity = velocity;
-        if(Input.GetKeyDown(KeyCode.LeftControl)){
+        if(Input.GetButtonDown("Crouch")){
             pm.dynamicFriction = 0.05f;
             speed = 0.0f;
             transform.localScale += crouch_scale;
@@ -147,10 +95,10 @@ public class Player_Movement : MonoBehaviour
             velocity.y = velocity.y*crouch_height_multiplier-crouch_height_penalty;
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl)&&jumpable){
+        if (Input.GetButtonDown("Crouch")&&jumpable){
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y*crouch_height_multiplier-crouch_height_penalty,rb.velocity.z);
         }
-        if(Input.GetKeyUp(KeyCode.LeftControl)){
+        if(Input.GetButtonUp("Crouch")){
             pm.dynamicFriction = base_friction;
             speed = base_speed;
             transform.localScale -= crouch_scale;

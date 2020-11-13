@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1049413159427876213}
   pm: {fileID: 13400000, guid: f295d9096e0b6b7438e415dbb822d269, type: 2}
-  base_speed: 20
+  base_speed: 1
   crouch_speed_multiplier: 0.6
   crouch_scale: {x: 0, y: -0.5, z: 0}
   mouse_sensitivity: 5
