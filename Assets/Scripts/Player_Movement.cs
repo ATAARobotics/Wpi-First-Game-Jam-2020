@@ -44,7 +44,9 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        velocity2D = new Vector2(velocity.x,velocity.z);
         velocity_magnitude = velocity2D.magnitude;
+        print(velocity_magnitude);
         velocity = new Vector3(rb.velocity.x,rb.velocity.y,rb.velocity.z);
         if((Input.GetKey("w")||Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("d"))&&(!Input.GetButton("Crouch"))&&jumpable){   
             velocity = new Vector3(0.0f,rb.velocity.y,0.0f);
@@ -57,7 +59,7 @@ public class Player_Movement : MonoBehaviour
             velocity += transform.right*speed*side_speed_scale*Input.GetAxis("Horizontal");
         }
 
-        if((Input.GetKey(KeyCode.LeftControl))){
+        if((Input.GetButton("Crouch"))){
             if(velocity_magnitude < momentum_cap){
 	        velocity += (transform.forward*base_speed*crouch_speed_multiplier*Input.GetAxis("Vertical")); 
                 velocity += transform.right*base_speed*side_speed_scale*crouch_speed_multiplier*Input.GetAxis("Horizontal");

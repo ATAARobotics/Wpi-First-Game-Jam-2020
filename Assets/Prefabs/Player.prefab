@@ -145,7 +145,7 @@ MonoBehaviour:
   jump_speed_loss: 1.14
   crouch_height_multiplier: 1
   crouch_height_penalty: 10
-  momentum_cap: 10
+  momentum_cap: 30
   air_control: 0.991
   velocity_magnitude: 0
   player_model: {fileID: 2619890034985025678}
