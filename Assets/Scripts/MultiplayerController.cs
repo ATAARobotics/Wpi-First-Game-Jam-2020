@@ -64,7 +64,7 @@ public class MultiplayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        RunMainThreadQueueActions();
     }
 
     private Aws.GameLift.Realtime.Client _client;
@@ -106,17 +106,16 @@ public class MultiplayerController : MonoBehaviour
     {
         string code = codeInputField.text;
 
-        doesRoomExist(code, (response) =>
+
+        doesRoomExist(code, (exists) =>
         {
-            if(response.StatusCode == 200)
+            if (exists)
             {
-                if(response.Body == "body")
-                {
-                    QForMainThread(joinRoomCode, code);
-                } else
-                {
-                    errorTextBox.text = "Room not Found or Room is Full";
-                }
+                joinRoomCode(code);
+            }
+            else
+            {
+                errorTextBox.text = "Room not Found or Room is Full";
             }
         });
 
@@ -124,7 +123,8 @@ public class MultiplayerController : MonoBehaviour
 
     public void joinRoomCode(string code)
     {
-        ConnectToGameLiftServer(code);
+        errorTextBox.text = ("Joining room: " + code);
+        QForMainThread(ConnectToGameLiftServer, code);
     }
 
     public string createRoom()
@@ -135,15 +135,47 @@ public class MultiplayerController : MonoBehaviour
 
         string newCode = new string(Enumerable.Repeat(chars, 6)
              .Select(s => s[random.Next(s.Length)]).ToArray());
-        // Something is probably wrong here...
+
         
+        /*
         while (!doesRoomExist(newCode))
         {
             newCode = new string(Enumerable.Repeat(chars, 6)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+        */
 
         return newCode;
+    }
+
+    public void doesRoomExist(string gameCode, Action<bool> callback){
+        Debug.Log("Checking room status....");
+
+        AWSConfigs.AWSRegion = "us-west-2"; // Your region here
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+
+        CognitoAWSCredentials credentials = GetCognitoCredentials();
+        AmazonLambdaClient client = new AmazonLambdaClient(credentials, RegionEndpoint.USWest2);
+        InvokeRequest request = new InvokeRequest
+        {
+            FunctionName = "wpigamejam-DoesRoomExist",
+            Payload = ("{\"gameCode\": \"" + gameCode + "\"}"),
+            InvocationType = InvocationType.RequestResponse
+        };
+
+        //TODO: Finish function running
+        client.InvokeAsync(request, (result) => {
+
+            if (result.Response.StatusCode == 200)
+            {
+                Debug.Log("Room Found");
+                callback(true);
+            } else
+            {
+                Debug.Log("Room not Found");
+                callback(false);
+            }
+        });
     }
 
     private const string DEFAULT_ENDPOINT = "127.0.0.1";
@@ -209,6 +241,7 @@ public class MultiplayerController : MonoBehaviour
     public void ActionConnectToServer(string ipAddr, int port, string tokenUID)
     {
         StartCoroutine(ConnectToServer(ipAddr, port, tokenUID));
+        //ConnectToServer(ipAddr, port, tokenUID);
     }
 
 
@@ -220,44 +253,10 @@ public class MultiplayerController : MonoBehaviour
         );
     }
 
-    private void doesRoomExist(string gameCode, Action<InvokeResponse> callback)
-    {
-        Debug.Log("Reaching out to client service Lambda function");
-
-        AWSConfigs.AWSRegion = "us-west-2"; // Your region here
-        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-
-        CognitoAWSCredentials credentials = GetCognitoCredentials();
-        AmazonLambdaClient client = new AmazonLambdaClient(credentials, RegionEndpoint.USWest2);
-        InvokeRequest request = new InvokeRequest
-        {
-            FunctionName = "wpigamejam-DoesRoomExist",
-            Payload = ("{\"gameCode\": \"" + gameCode + "\"}"),
-            InvocationType = InvocationType.RequestResponse
-        };
-
-        //TODO: Finish function running
-
-        client.InvokeAsync(request, (result) => {
-            callback(result.Response);
-        });
-
-        /*
-        if(response.StatusCode == 200)
-        {
-            if(response.Body == "found")
-            {
-                return true;
-            }
-        }
-        */
-
-    }
-
     // calls our game service Lambda function to get connection info for the Realtime server
     private void ConnectToGameLiftServer(string gameCode)
     {
-        Debug.Log("Reaching out to client service Lambda function");
+        Debug.Log("Getting Realtime Server");
 
         AWSConfigs.AWSRegion = "us-west-2"; // Your region here
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
@@ -289,6 +288,7 @@ public class MultiplayerController : MonoBehaviour
                         }
                         else
                         {
+                            errorTextBox.text = ("Joined Room: " + gameCode);
                             QForMainThread(ActionConnectToServer, playerSessionObj.IpAddress, Int32.Parse(playerSessionObj.Port), playerSessionObj.PlayerSessionId);
                         }
                     }
