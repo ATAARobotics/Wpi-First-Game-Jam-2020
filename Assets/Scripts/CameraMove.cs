@@ -31,7 +31,6 @@ public class CameraMove : MonoBehaviour
                 if (hit.transform.tag == "Button") {
                     ToggleObject button = hit.transform.GetComponent<ToggleObject>();
                     button.ToggleButton();
-                    Debug.Log(button);
                 }
             }
         }
