@@ -19,6 +19,7 @@ using System.Text;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Linq;
+using System.Threading.Tasks;
 
 // This data structure is returned by the client service when a game match is found
 [System.Serializable]
@@ -32,6 +33,12 @@ public class PlayerSessionObject
     public string Status;
     public string IpAddress;
     public string Port;
+}
+
+public class RoomExistsObject
+{
+    public int StatusCode;
+    public string Body;
 }
 
 public class MultiplayerController : MonoBehaviour
@@ -99,13 +106,20 @@ public class MultiplayerController : MonoBehaviour
     {
         string code = codeInputField.text;
 
-        if (!doesRoomExist(code))
+        doesRoomExist(code, (response) =>
         {
-            errorTextBox.text = "Room not Found or Room is Full";
-            return;
-        }
+            if(response.StatusCode == 200)
+            {
+                if(response.Body == "body")
+                {
+                    QForMainThread(joinRoomCode, code);
+                } else
+                {
+                    errorTextBox.text = "Room not Found or Room is Full";
+                }
+            }
+        });
 
-        joinRoomCode(code);
     }
 
     public void joinRoomCode(string code)
@@ -148,7 +162,7 @@ public class MultiplayerController : MonoBehaviour
             if (!usedPorts.Contains(testPort))
             {
                 return testPort;
-            }
+            } 
         }
         return -1;
     }
@@ -206,7 +220,7 @@ public class MultiplayerController : MonoBehaviour
         );
     }
 
-    private bool doesRoomExist(string gameCode)
+    private void doesRoomExist(string gameCode, Action<InvokeResponse> callback)
     {
         Debug.Log("Reaching out to client service Lambda function");
 
@@ -224,8 +238,11 @@ public class MultiplayerController : MonoBehaviour
 
         //TODO: Finish function running
 
-        
-        var response = client.Invoke(request);
+        client.InvokeAsync(request, (result) => {
+            callback(result.Response);
+        });
+
+        /*
         if(response.StatusCode == 200)
         {
             if(response.Body == "found")
@@ -233,8 +250,8 @@ public class MultiplayerController : MonoBehaviour
                 return true;
             }
         }
+        */
 
-        return false;
     }
 
     // calls our game service Lambda function to get connection info for the Realtime server
