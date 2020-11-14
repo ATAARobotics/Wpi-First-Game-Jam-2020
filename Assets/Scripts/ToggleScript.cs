@@ -16,11 +16,31 @@ public class ToggleScript : MonoBehaviour {
     [SerializeField]
     private Transform[] targeted;
 
+<<<<<<< HEAD:Assets/Scripts/ToggleObject.cs
+    private float distance;
+    // Update is called once per frame
+    void Update() {
+        if (open) {
+            floor.GetComponent<Renderer>().enabled = false;
+            floor.GetComponent<Collider>().enabled = false;
+        } else {
+            floor.GetComponent<Renderer>().enabled = true;
+            floor.GetComponent<Collider>().enabled = true;
+        }
+        if(playerDistance() < max_distance&&Input.GetButton("Fire1")){
+            open = !open;
+        }
+    }
+=======
     private bool toggle;
+>>>>>>> LevelDesign:Assets/Scripts/ToggleScript.cs
 
     private float distance;
     public void ToggleButton() {
         //Debug.Log(playerDistance());
+<<<<<<< HEAD:Assets/Scripts/ToggleObject.cs
+        
+=======
         if(playerDistance() < max_distance){
            // Debug.Log("toggle");
             toggle = !toggle;
@@ -29,6 +49,7 @@ public class ToggleScript : MonoBehaviour {
                 targeted[i].transform.GetComponent<IsActive>().Toggle(toggle);
             }
         }
+>>>>>>> LevelDesign:Assets/Scripts/ToggleScript.cs
     }
 
     public float playerDistance() {
