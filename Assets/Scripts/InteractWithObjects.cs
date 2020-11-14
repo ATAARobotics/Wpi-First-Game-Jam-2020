@@ -14,7 +14,7 @@ public class InteractWithObjects : MonoBehaviour {
         if (other.tag == buttonTag) {
             if (Input.GetKeyUp(interactButton)) {
                 i = 0;
-                foreach (ToggleObject button in other.GetComponents<ToggleObject>()) {
+                foreach (ToggleScript button in other.GetComponents<ToggleScript>()) {
                     button.ToggleButton();
                     i++;
                 }

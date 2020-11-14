@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformMovement : MonoBehaviour
+public class PlatformMovement : IsActive
 {
     public Vector3[] points;
     public int point_number = 0;
@@ -14,11 +14,10 @@ public class PlatformMovement : MonoBehaviour
 
     private float delay_start;
 
-    public bool buttonPressed;
-
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("test");
         if (points.Length > 0)
         {
             current_target = points[0];
@@ -29,13 +28,16 @@ public class PlatformMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position != current_target)
+       if (state)
         {
-            MovePlatform();
-        }
-        else
-        {
-            UpdateTarget();
+            if ((transform.position != current_target))
+            {
+                MovePlatform();
+            }
+            else
+            {
+                UpdateTarget();
+            }
         }
     }
     void MovePlatform()
@@ -50,13 +52,11 @@ public class PlatformMovement : MonoBehaviour
     }
     void UpdateTarget()
     {
-        if (buttonPressed)
-        {
-            if (Time.time - delay_start > delay_start)
-            {
-                NextPlatform();
-            }
-        }
+       if (Time.time - delay_start > delay_start)
+       {
+        NextPlatform();
+       }
+        
     }
     public void NextPlatform()
     {
