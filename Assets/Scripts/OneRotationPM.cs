@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformMovement : IsActive
+public class OneRotationPM : IsActive
 {
     public Vector3[] points;
     public int point_number = 0;
@@ -13,7 +13,6 @@ public class PlatformMovement : IsActive
     public float delay_time;
 
     private float delay_start;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +26,7 @@ public class PlatformMovement : IsActive
     // Update is called once per frame
     void Update()
     {
-       if (state)
+        if (state)
         {
             if ((transform.position != current_target))
             {
@@ -51,20 +50,24 @@ public class PlatformMovement : IsActive
     }
     void UpdateTarget()
     {
-       if (Time.time - delay_start > delay_start)
-       {
-        NextPlatform();
-       }
-        
+        if (Time.time - delay_start > delay_start)
+        {
+            NextPlatform();
+        }
+
     }
     public void NextPlatform()
     {
-        point_number++;
+       /* point_number++;
         if (point_number >= points.Length)
         {
             point_number = 0;
         }
-        current_target = points[point_number];
+        current_target = points[point_number];*/
+        for (point_number = 0; point_number < points.Length; point_number++){
+           //Debug.Log("point change");
+            current_target = points[point_number];
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -75,4 +78,3 @@ public class PlatformMovement : IsActive
         other.transform.parent = null;
     }
 }
-
