@@ -19,6 +19,8 @@ public class ToggleScript : MonoBehaviour {
     private bool toggle;
 
     private float distance;
+	
+	
     public void ToggleButton() {
         //Debug.Log(playerDistance());
         if(playerDistance() < max_distance){
