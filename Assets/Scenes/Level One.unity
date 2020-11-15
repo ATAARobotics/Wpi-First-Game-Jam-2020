@@ -2237,7 +2237,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targeted.Array.data[0]
       value: 
-      objectReference: {fileID: 1260528543}
+      objectReference: {fileID: 1454725417}
     - target: {fileID: 3093656969772591982, guid: 33a9dc9866193484d979bdcb3af866f5,
         type: 3}
       propertyPath: targeted.Array.data[1]
@@ -5578,7 +5578,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targeted.Array.data[0]
       value: 
-      objectReference: {fileID: 1454725417}
+      objectReference: {fileID: 1260528543}
     - target: {fileID: 3093656969772591982, guid: 33a9dc9866193484d979bdcb3af866f5,
         type: 3}
       propertyPath: player
