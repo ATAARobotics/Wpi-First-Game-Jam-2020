@@ -3347,7 +3347,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 31e3429a4828d714cb96d3aa497a6134,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.904245
+      value: 2.99
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31e3429a4828d714cb96d3aa497a6134,
         type: 3}
@@ -4547,6 +4547,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   death_box: {fileID: 547149407}
   spawn: {fileID: 1082195764}
+--- !u!1 &1390097197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 31e3429a4828d714cb96d3aa497a6134,
+    type: 3}
+  m_PrefabInstance: {fileID: 1097188203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1390097198
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390097197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1390097199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 31e3429a4828d714cb96d3aa497a6134,
