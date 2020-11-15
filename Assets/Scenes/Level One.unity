@@ -5390,6 +5390,11 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.b
       value: 0.7924528
       objectReference: {fileID: 0}
+    - target: {fileID: 5565112776623422218, guid: 29da4abf74da3674aa5bc0dfdf5502eb,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a57aa41ca78eb04bb56b31689b9775f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29da4abf74da3674aa5bc0dfdf5502eb, type: 3}
 --- !u!1 &1702174875
