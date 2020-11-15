@@ -153,12 +153,17 @@ public class Player_Movement : MonoBehaviour
         rotation_x+=Mathf.Clamp((Input.GetAxis("Mouse X"))*mouse_sensitivity,-5.0f,5.0f);
         transform.localRotation = Quaternion.Euler(0, rotation_x, 0);
 		swappable = jumpable;
-		jumpable = false;
     }
 
     void OnCollisionStay(Collision col){
-		if (!(velocity.y > 0)){
-			jumpable = true;
-		}
+        if (!(velocity.y > 0)) {
+            jumpable = true;
+        } else {
+            jumpable = false;
+        }
+    }
+
+    void OnCollisionExit(Collision collision) {
+        jumpable = false;    
     }
 }
