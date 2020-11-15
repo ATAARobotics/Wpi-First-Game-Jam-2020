@@ -51,7 +51,7 @@ public class PlatformMovement : IsActive
     }
     void UpdateTarget()
     {
-       if (Time.time - delay_start > delay_start)
+       if (Time.time - delay_start > delay_time)
        {
         NextPlatform();
        }
