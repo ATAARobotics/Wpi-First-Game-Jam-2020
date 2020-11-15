@@ -2324,7 +2324,6 @@ GameObject:
   - component: {fileID: 648751855}
   - component: {fileID: 648751854}
   - component: {fileID: 648751852}
-  - component: {fileID: 648751859}
   - component: {fileID: 648751853}
   m_Layer: 0
   m_Name: Moving Platform
@@ -2455,20 +2454,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &648751859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648751851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c0dfc97dc638f4fac11d469266b3a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  death_box: {fileID: 547149407}
-  spawn: {fileID: 1082195764}
 --- !u!1001 &674642598
 PrefabInstance:
   m_ObjectHideFlags: 0
