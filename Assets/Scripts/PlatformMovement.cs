@@ -14,6 +14,7 @@ public class PlatformMovement : IsActive
 
     private float delay_start;
     private bool reverse;
+    private bool alreadyPressed;
 
     // Start is called before the first frame update
     void Start()
@@ -33,29 +34,41 @@ public class PlatformMovement : IsActive
         {
             if ((transform.position != current_target))
             {
+                if (reverse)
+                {
+                    Reverse();
+                    reverse = false;
+                }
                 MovePlatform();
             }
             else
             {
                 UpdateTarget();
             }
-            reverse = true;
+            reverse = false;
+            alreadyPressed = true;
         }
         else
         {
-             if (reverse)
-             {
+            if (alreadyPressed)
+            {
 
-                 if ((transform.position != current_target))
-                 {
-                     MovePlatform();
-                 }
-                 else
-                 {
-                     UpdateTarget();
-                 }
-             }
+                if ((transform.position != current_target))
+                {
+                    if (!reverse)
+                    {
+                        Reverse();
+                        reverse = true;
+                    }
+                    MovePlatform();
+                }
+                else
+                {
+                    UpdateTarget();
+                }
+            }
         }
+    }
         void Reverse()
         {
             NextPlatform();
@@ -102,6 +115,6 @@ public class PlatformMovement : IsActive
         {
             other.transform.parent = null;
         }
-    }
 }
+
 
