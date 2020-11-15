@@ -13,6 +13,8 @@ public class PlatformMovement : IsActive
     public float delay_time;
 
     private float delay_start;
+    private bool reverse;
+    private bool alreadyPressed;
 
     // Start is called before the first frame update
     void Start()
@@ -22,57 +24,97 @@ public class PlatformMovement : IsActive
             current_target = points[0];
         }
         tolerence = speed * Time.deltaTime;
+        reverse = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-       if (state)
+        if (state)
         {
             if ((transform.position != current_target))
             {
+                if (reverse)
+                {
+                    Reverse();
+                    reverse = false;
+                }
                 MovePlatform();
             }
             else
             {
                 UpdateTarget();
             }
+            reverse = false;
+            alreadyPressed = true;
         }
-    }
-    void MovePlatform()
-    {
-        Vector3 heading = current_target - transform.position;
-        transform.position += (heading / heading.magnitude) * speed * Time.deltaTime;
-        if (heading.magnitude < tolerence)
+        else
         {
-            transform.position = current_target;
-            delay_start = Time.time;
+            if (alreadyPressed)
+            {
+
+                if ((transform.position != current_target))
+                {
+                    if (!reverse)
+                    {
+                        Reverse();
+                        reverse = true;
+                    }
+                    MovePlatform();
+                }
+                else
+                {
+                    UpdateTarget();
+                }
+            }
         }
     }
-    void UpdateTarget()
-    {
-       if (Time.time - delay_start > delay_time)
-       {
-        NextPlatform();
-       }
-        
-    }
-    public void NextPlatform()
-    {
-        point_number++;
-        if (point_number >= points.Length)
+        void Reverse()
         {
-            point_number = 0;
+            NextPlatform();
+            Vector3 heading = current_target - transform.position;
+            transform.position += (heading / heading.magnitude) * speed * Time.deltaTime;
+            if (heading.magnitude < tolerence)
+            {
+                transform.position = current_target;
+            }
+
         }
-        current_target = points[point_number];
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        other.transform.parent = transform;
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        other.transform.parent = null;
-    }
+        void MovePlatform()
+        {
+            Vector3 heading = current_target - transform.position;
+            transform.position += (heading / heading.magnitude) * speed * Time.deltaTime;
+            if (heading.magnitude < tolerence)
+            {
+                transform.position = current_target;
+                delay_start = Time.time;
+            }
+        }
+        void UpdateTarget()
+        {
+            if (Time.time - delay_start > delay_time)
+            {
+                NextPlatform();
+            }
+
+        }
+       public void NextPlatform()
+        {
+            point_number++;
+            if (point_number >= points.Length)
+            {
+                point_number = 0;
+            }
+            current_target = points[point_number];
+        }
+       private void OnTriggerEnter(Collider other)
+        {
+            other.transform.parent = transform;
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            other.transform.parent = null;
+        }
 }
+
 
