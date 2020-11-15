@@ -23,7 +23,7 @@ public class SwapPlayers : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown("e") & player.GetComponent<Player_Movement>().jumpable) {
+        if (Input.GetKeyDown("e") & player.GetComponent<Player_Movement>().swappable) {
 			GameObject temp;
 			for (int i=0;i<kp.Length;i++){
 				temp = spawn_points[i];
@@ -36,6 +36,9 @@ public class SwapPlayers : MonoBehaviour {
 
             player.position = pos2;
             model.position = pos1;
+
+			player.parent = null;
+			model.parent = null;
         }
     }
 }

@@ -25,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     private Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
     private Vector2 velocity2D = new Vector2(0.0f,0.0f);
     public bool jumpable = false;
-    private int objects_contacting = 0;
+    public bool swappable = false;
     public float velocity_magnitude = 0.0f;
     public GameObject player_model;
     private Animation am;
@@ -126,11 +126,10 @@ public class Player_Movement : MonoBehaviour
             velocity = new Vector3(velocity2D.x,velocity.y,velocity2D.y);
             am.Play("Idle");
         }
-        if(Input.GetKey("space")&&(jumpable)){
+        if(Input.GetKeyDown("space")&&(jumpable)){
 	    velocity += transform.up*jump_speed;
             velocity.x = velocity.x*jump_speed_loss;
             velocity.z = velocity.z*jump_speed_loss;
-            objects_contacting = 0;
             am.Play("Idle");
         }
         velocity2D = new Vector2(velocity.x,velocity.z);
@@ -153,18 +152,18 @@ public class Player_Movement : MonoBehaviour
         }
         rotation_x+=Mathf.Clamp((Input.GetAxis("Mouse X"))*mouse_sensitivity,-5.0f,5.0f);
         transform.localRotation = Quaternion.Euler(0, rotation_x, 0);
-        if (objects_contacting > 0){
+		swappable = jumpable;
+    }
+
+    void OnCollisionStay(Collision col){
+        if (!(velocity.y > 0)) {
             jumpable = true;
-        }else{
+        } else {
             jumpable = false;
         }
     }
 
-    void OnTriggerEnter(Collider col){
-        objects_contacting = objects_contacting+1;
-    }
-    void OnTriggerExit(Collider col){
-        objects_contacting = objects_contacting-1;
-        if (objects_contacting<0){objects_contacting = 0;}
+    void OnCollisionExit(Collision collision) {
+        jumpable = false;    
     }
 }
