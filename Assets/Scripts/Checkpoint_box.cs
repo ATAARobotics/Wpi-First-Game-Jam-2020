@@ -23,6 +23,7 @@ public class Checkpoint_box : MonoBehaviour
     void OnTriggerEnter(Collider col){
         if(col.gameObject.tag == "Player"){
             kp.spawn_point = spawn;
+
         }
     }
 }
