@@ -19,8 +19,15 @@ public class ToggleScript : MonoBehaviour {
     private bool toggle;
 
     private float distance;
-	
-	
+
+    private void Update() {
+        if (toggle) {
+            GetComponent<Renderer>().material.color = Color.red;
+        } else {
+            GetComponent<Renderer>().material.color = Color.blue;
+        }
+    }
+
     public void ToggleButton() {
         //Debug.Log(playerDistance());
         if(playerDistance() < max_distance){
@@ -32,6 +39,7 @@ public class ToggleScript : MonoBehaviour {
                // Debug.Log(i);
                 targeted[i].transform.GetComponent<IsActive>().Toggle(toggle);
             }
+
         }
     }
 

@@ -18,6 +18,14 @@ public class Scene_manage : MonoBehaviour
 
 
     public void Go_To_Game(){
+        SceneManager.LoadScene("Level One");
+    }
+
+    public void Go_To_Controls() {
+        SceneManager.LoadScene("Controls");
+    }
+
+    public void Go_To_Test() {
         SceneManager.LoadScene("player-movement-test");
     }
 }
