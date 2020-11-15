@@ -10,6 +10,7 @@ CTRL: Crouch
 Mouse: Camera
 E: Swap Players
 -: Restart Level
+Alt F4: Close Game
 
 # Credits:
 
@@ -21,6 +22,8 @@ Matthew Naruzny: Online Components/Multiplayer (unfortunately scrapped due to ti
 Cole Hilderman: Creative Assistance
 
 # Install:
+
+Just extract the ZIP File, and run the .exe and you are all set! No installation needed.
 
 # Assets Used:
 
