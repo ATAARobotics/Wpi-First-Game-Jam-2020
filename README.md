@@ -26,3 +26,7 @@ Cole Hilderman: Creative Assistance
 
 Models, Audio: Created in house.
 Textures: Unity Defaults
+
+# Development Process:
+
+Shared with "wpigamejam@gmail.com" through Google Drive. May be publicly uploaded at a later time
