@@ -7,7 +7,7 @@ using UnityEngine.Jobs;
 
 public class ToggleScript : MonoBehaviour {
 
-    public GameObject player;
+    private GameObject player;
 
     [SerializeField]
     private float max_distance;
@@ -19,6 +19,12 @@ public class ToggleScript : MonoBehaviour {
     private bool toggle;
 
     private float distance;
+
+    private void Start() {
+        if (player == null) {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+    }
 
     private void Update() {
         if (toggle) {

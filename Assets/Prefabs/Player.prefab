@@ -243,6 +243,8 @@ MonoBehaviour:
   crouch_height_multiplier: 1
   crouch_height_penalty: 10
   momentum_cap: 10
+  jumpable: 0
+  swappable: 0
   velocity_magnitude: 0
   player_model: {fileID: 2619890034985025678}
 --- !u!1 &2667275481756697877
@@ -286,7 +288,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5289d153177cf244d8818be90f8f098f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1a57aa41ca78eb04bb56b31689b9775f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.068
   m_Pitch: 1
