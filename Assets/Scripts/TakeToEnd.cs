@@ -17,29 +17,24 @@ public class TakeToEnd : IsActive
     void Update()
     {
 
-        if (state && stillHere && playerHere) {
+        if (state && playerHere) {
             SceneManager.LoadScene("End");
 
         }
     }
 
     private void OnCollisionStay(Collision collision) {
+
         if (collision.transform.tag == "Player") {
             playerHere = true;
+            //Debug.Log("Hit 1!");
         }
 
-        if (collision.transform.tag == "Still") {
-            stillHere = true;
-        }
     }
 
     private void OnCollisionExit(Collision collision) {
         if (collision.transform.tag == "Player") {
             playerHere = false;
-        }
-
-        if (collision.transform.tag == "Still") {
-            stillHere = false;
         }
     }
 }
