@@ -8,13 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: f35b78ce54f1e0445bd06f837195994e
-  - enabled: 0
-    path: Assets/Scenes/player-movement-test.unity
-    guid: f78cb3a81d9db3c4c8aeac8106e6c82f
   - enabled: 1
     path: Assets/Scenes/Controls.unity
     guid: a54ee3d737a861d4bbb6d8685b361cfa
   - enabled: 1
     path: Assets/Scenes/Level One.unity
     guid: 60438ab4eca7b4540bfef4e3fb9f5032
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: cbd78d6b5b124bf41bde3e7abd680075
+  - enabled: 1
+    path: Assets/Scenes/player-movement-test.unity
+    guid: f78cb3a81d9db3c4c8aeac8106e6c82f
   m_configObjects: {}
