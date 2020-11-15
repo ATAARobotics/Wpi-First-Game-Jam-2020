@@ -36,6 +36,9 @@ public class SwapPlayers : MonoBehaviour {
 
             player.position = pos2;
             model.position = pos1;
+
+			player.parent = null;
+			model.parent = null;
         }
     }
 }
