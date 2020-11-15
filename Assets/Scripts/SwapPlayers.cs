@@ -16,7 +16,7 @@ public class SwapPlayers : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown("e")) {
+        if (Input.GetKeyDown("e") & player.GetComponent<Player_Movement>().jumpable) {
             Vector3 pos1 = player.position;
             Vector3 pos2 = model.position;
 

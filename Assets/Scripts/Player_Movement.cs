@@ -24,7 +24,7 @@ public class Player_Movement : MonoBehaviour
     private float rotation_x = 0.0f;
     private Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
     private Vector2 velocity2D = new Vector2(0.0f,0.0f);
-    private bool jumpable = false;
+    public bool jumpable = false;
     private int objects_contacting = 0;
     public float velocity_magnitude = 0.0f;
     public GameObject player_model;
